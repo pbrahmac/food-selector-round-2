@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form as wtf %}
+{% from 'bootstrap/form.html' import render_field as wtf_field %}
+
+{% block app_content %}
+    <h1>Edit Profile</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="POST">
+                {{ form.csrf_token() }}
+                <div class="form-row">
+                    <div class="col">
+                        {{ wtf_field(form.firstname) }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        {{ wtf_field(form.lastname) }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        {{ wtf_field(form.username) }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        {{ wtf_field(form.password) }}
+                    </div>
+                </div>
+                <br>
+                <div class="form-row">
+                    <div class="col">
+                        <a role="button" class="btn btn-danger" href="{{ url_for('user', username=current_user.username) }}">Go Back</a>
+                        {{ wtf_field(form.submit, button_map={'submit': 'primary'}) }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

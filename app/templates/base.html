@@ -1,0 +1,62 @@
+{% extends "bootstrap/base.html" %}
+{% from 'bootstrap/nav.html' import render_nav_item %}
+
+{% block title %}
+    {% if title %}{{ title }} - Extended Food Selector{% else %}Welcome to Extended Food Selector!{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);">
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='apple.svg') }}" alt="" height="30" width="30" class="d-inline-block align-middle">
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="navbar-nav mr-auto">
+                {{ render_nav_item('index', 'Home') }}
+            </ul>
+            <ul class="navbar-nav my-2 my-lg-0">
+                {% if current_user.is_anonymous %}
+                {{ render_nav_item('login', 'Login') }}
+                {% else %}
+                {{ render_nav_item('user', 'My Profile', username=current_user.username) }}
+                {{ render_nav_item('logout', 'Logout') }}
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <br>
+                {% if message == "Incorrect password." %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <br>
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
