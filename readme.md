@@ -6,4 +6,4 @@ I'm expanding this project with a new backend architecture, and changing it from
 
 Database schema here: 
 
-![database schema](er_diagram.jpg)
+![database schema](er_diagram.png)
