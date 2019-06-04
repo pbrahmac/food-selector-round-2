@@ -63,9 +63,11 @@ def edit_profile():
         if form.username.data != '':
             current_user.username = form.username.data
         
+        if form.password.data != '':
+            current_user.set_password(form.password.data)
+
         current_user.firstname = form.firstname.data
         current_user.lastname = form.lastname.data
-        current_user.set_password(form.password.data)
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('user', username=current_user.username))

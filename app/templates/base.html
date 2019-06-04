@@ -1,11 +1,22 @@
-{% extends "bootstrap/base.html" %}
 {% from 'bootstrap/nav.html' import render_nav_item %}
 
-{% block title %}
-    {% if title %}{{ title }} - Extended Food Selector{% else %}Welcome to Extended Food Selector!{% endif %}
-{% endblock %}
+<!doctype html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block navbar %}
+    {% block styles %}
+    <!-- Bootstrap CSS -->
+    {{ bootstrap.load_css() }}
+    {% endblock %}
+
+    <title>{% if title %}{{ title }} - Extended Food Selector{% else %}Welcome to Extended Food Selector!{% endif %}</title>
+    {% endblock %}
+  </head>
+  <body class="text-dark bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);">
         <a class="navbar-brand" href="{{ url_for('index') }}">
             <img src="{{ url_for('static', filename='apple.svg') }}" alt="" height="30" width="30" class="d-inline-block align-middle">
@@ -30,9 +41,7 @@
             </ul>
         </div>
     </nav>
-{% endblock %}
-
-{% block content %}
+    <!-- Your page content -->
     <div class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -59,4 +68,9 @@
         <br>
         {% block app_content %}{% endblock %}
     </div>
-{% endblock %}
+    {% block scripts %}
+    <!-- Optional JavaScript -->
+    {{ bootstrap.load_js() }}
+    {% endblock %}
+  </body>
+</html>
