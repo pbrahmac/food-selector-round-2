@@ -26,7 +26,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, message='Password must be at least 6 characters long.'), Regexp(
         "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d))", message="Password must have at least one upper case, lower case, and numeric/special character.")])
-    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password', message="Make sure this matches the password field above.")])
     submit = SubmitField('Register')
 
     def validate_username(self, username):
@@ -54,3 +54,7 @@ class EditProfileForm(FlaskForm):
 
 class DeleteAccountForm(FlaskForm):
     submit = SubmitField('Delete my account')
+
+class AdminDeleteAccountForm(FlaskForm):
+    username = StringField('Enter this user\'s username to delete the account:', validators=[DataRequired()])
+    submit = SubmitField('Delete')

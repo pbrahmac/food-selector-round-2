@@ -53,6 +53,7 @@ def register():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     users = User.query.all()
+    
     return render_template('user.html', user=user, users=users)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])

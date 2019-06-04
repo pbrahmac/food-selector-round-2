@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form as wtf %}
+{% from 'bootstrap/form.html' import render_field as wtf_field %}
 
 {% block app_content %}
     <h1>{{ user.firstname }}'s Profile Page</h1>
@@ -20,38 +22,13 @@
     <p>{{ user.email }}</p>
     <br>
 
-    <!-- <div class="row">
-        <h6>First Name: </h6>
-        <p>{{ user.firstname }}</p>
-    </div> -->
-
-    <!-- <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">ID #</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Username</th>
-                <th scope="col">Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-            </tr>
-        </tbody>
-    </table> -->
-
     {% if user == current_user %}
         <a class="btn btn-primary"  href="{{ url_for('edit_profile') }}" role="button">Edit your profile</a>
     {% endif %}
 
     <br><br>
-
+    
+    <!-- Admin settings -->
     {% if (user == current_user) and (user.user_role.value == 'admin') %}
         <h3>All Users</h3>
         <div class="table-responsive-md">
@@ -65,6 +42,7 @@
                         <th scope="col">Username</th>
                         <th scope="col">Email</th>
                         <th scope="col">User Role</th>
+                        <!-- <th scope="col">Delete Account</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -76,6 +54,38 @@
                         <td>{{ u.username }}</td>
                         <td>{{ u.email }}</td>
                         <td>{{ u.user_role.value }}</td>
+
+                        <!-- Delete user account THIS DOESN'T WORK -->
+                        <!-- <td>
+                            <button type="button" class=" btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                                <span style="color: white;">
+                                    <i class="far fa-trash-alt"></i>
+                                </span>
+                            </button>
+                            
+                            <div class="modal fade" id="deleteModal" tabindex="-1" role="alertdialog" aria-labelledby="deleteAccountModal"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalTitle">Are You Sure?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            This will delete this user's account <strong>permanently</strong>.
+                                            <form method="POST">
+                                                
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td> -->
                     </tr>
                     {% endfor %}
                 </tbody>
