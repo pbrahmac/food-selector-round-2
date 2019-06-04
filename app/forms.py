@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SelectField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length, Regexp
 from app.models import User
 
 class LoginForm(FlaskForm):
@@ -24,7 +24,8 @@ class RegistrationForm(FlaskForm):
     lastname = StringField('Last Name', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, message='Password must be at least 6 characters long.'), Regexp(
+        "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d))", message="Password must have at least one upper case, lower case, and numeric/special character.")])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
@@ -42,10 +43,14 @@ class EditProfileForm(FlaskForm):
     firstname = StringField('Change first name:')
     lastname = StringField('Change last name:')
     username = StringField('Change username:')
-    password = PasswordField('Change password:')
+    password = PasswordField('Change password:', validators=[Length(min=6, message='Password must be at least 6 characters long.'), Regexp(
+        "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d))", message="Password must have at least one upper case, lower case, and numeric/special character.")])
     submit = SubmitField('Submit')
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Username is taken. Please use another one.')
+
+class DeleteAccountForm(FlaskForm):
+    submit = SubmitField('Delete my account')

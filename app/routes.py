@@ -20,7 +20,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if not user.check_password(form.password.data):
-            flash("Incorrect password.")
+            flash("Incorrect password.", category="error")
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
@@ -44,7 +44,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash("Nice! You're registered.")
+        flash("Nice! You're registered.", category="info")
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -59,6 +59,7 @@ def user(username):
 @login_required
 def edit_profile():
     form = EditProfileForm()
+    deleteForm = DeleteAccountForm()
     if form.validate_on_submit():
         if form.username.data != '':
             current_user.username = form.username.data
@@ -69,9 +70,16 @@ def edit_profile():
         current_user.firstname = form.firstname.data
         current_user.lastname = form.lastname.data
         db.session.commit()
-        flash('Your changes have been saved.')
+        flash('Your changes have been saved.', category="info")
         return redirect(url_for('user', username=current_user.username))
     elif request.method == 'GET':
         form.firstname.data = current_user.firstname
         form.lastname.data = current_user.lastname
-    return render_template('edit_profile.html', title='Edit Profile', form=form)
+    
+    if deleteForm.validate_on_submit():
+        db.session.delete(current_user)
+        db.session.commit()
+        flash('Your account has been deleted. We\'re sad to see you go!', category="warning")
+        return redirect(url_for('login'))
+
+    return render_template('edit_profile.html', title='Edit Profile', form=form, deleteForm=deleteForm)

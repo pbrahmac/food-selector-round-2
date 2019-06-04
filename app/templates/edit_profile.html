@@ -32,11 +32,36 @@
                 <br>
                 <div class="form-row">
                     <div class="col">
-                        <a role="button" class="btn btn-danger" href="{{ url_for('user', username=current_user.username) }}">Go Back</a>
+                        <a role="button" class="btn btn-secondary" href="{{ url_for('user', username=current_user.username) }}">Go Back</a>
                         {{ wtf_field(form.submit, button_map={'submit': 'primary'}) }}
                     </div>
                 </div>
             </form>
+            <hr>
+
+            <button type="button" class=" btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Account</button>
+
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="alertdialog" aria-labelledby="deleteAccountModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalTitle">Are you sure?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            This will <strong>permanently delete</strong> your account.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            {{ wtf(deleteForm, button_map={'submit':'danger'}) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 {% endblock %}
