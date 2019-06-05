@@ -5,6 +5,7 @@ from wtforms import ValidationError
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app.models import User
+import json
 
 @app.route('/')
 @app.route('/index')
@@ -22,11 +23,12 @@ def login():
         if not user.check_password(form.password.data):
             flash("Incorrect password.", category="error")
             return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
+        login_user(user)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(url_for('index'))
+    session.clear()
     return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/logout')
@@ -55,7 +57,6 @@ def user(username):
     if not current_user.username == user.username:
         abort(403)
     users = User.query.all()
-    
     return render_template('user.html', user=user, users=users)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
