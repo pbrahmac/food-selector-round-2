@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, abort
 from app import app, db
 from app.forms import *
 from wtforms import ValidationError
@@ -52,6 +52,8 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
+    if not current_user.username == user.username:
+        abort(403)
     users = User.query.all()
     
     return render_template('user.html', user=user, users=users)
