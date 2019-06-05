@@ -31,9 +31,10 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="navbar-nav mr-auto">
-                {{ render_nav_item('index', 'Home') }}
+                <!-- Left side navbar items here -->
             </ul>
             <ul class="navbar-nav my-2 my-lg-0">
+                <!-- Right side navbar items here -->
                 {% if current_user.is_anonymous %}
                 {{ render_nav_item('login', 'Login') }}
                 {% else %}
