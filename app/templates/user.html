@@ -33,7 +33,7 @@
         <h3>All Users</h3>
         <form method="POST" class="form">
             {{ form.csrf_token() }}
-            {{ wtf_field(form.searchBox, placeholder='Search by username...', class="form-control mb-2 mr-sm-2") }}
+            {{ wtf_field(form.searchBox, placeholder='Search by first name, last name, or username...', class="form-control mb-2 mr-sm-2") }}
         </form>
         <div class="table-responsive-md">
             <table class="table table-hover">

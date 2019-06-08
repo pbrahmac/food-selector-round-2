@@ -41,11 +41,11 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     user_role = db.Column(db.Enum(UserRoles), default=UserRoles.user)
 
-    created = db.Column(db.DateTime, index=True)
+    created = db.Column(db.DateTime, index=True, default=datetime.utcnow())
     last_modified = db.Column(db.DateTime, index=True, default=datetime.utcnow())
     
-    #link between User and Schedule tables
-    user_schedule = db.relationship('CalendarEntry', backref='user', lazy='dynamic')
+    #link between User and UserFoodItems tables
+    user_food_items = db.relationship('UserFoodItems', backref='user', lazy='dynamic')
 
     #password hash stuff
     def set_password(self, password):
@@ -60,8 +60,14 @@ class User(UserMixin, db.Model):
 
 class UserFoodItems(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, index=True)
-    food_items_id = db.Column(db.Integer, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),index=True)
+    food_items_id = db.Column(db.Integer, db.ForeignKey('food_items.id'), index=True)
+
+    created = db.Column(db.DateTime, index=True, default=datetime.utcnow())
+    last_modified = db.Column(db.DateTime, index=True, default=datetime.utcnow())
+
+    #link between UserFoodItems and Schedule tables
+    user_food_item_schedule = db.relationship('CalendarEntry', backref='user_food_item', lazy='dynamic')
 
 class CoItem(db.Model):
     __tablename__ = 'co_items'
@@ -95,8 +101,8 @@ class FoodItem(db.Model):
 
     #link between FoodItem and FoodItemsCoItemSet tables
     compatible_co_items = db.relationship('FoodItemsCoItemSet', backref='food_items', lazy='dynamic')
-    #link between FoodItem and Schedule tables
-    food_schedule = db.relationship('CalendarEntry', backref='food', lazy='dynamic')
+    #link between FoodItem and UserFoodItems tables
+    users = db.relationship('UserFoodItems', backref='user_food_item_food', lazy='dynamic')
 
     #print function
     def __repr__(self):
@@ -127,8 +133,7 @@ class CalendarEntry(db.Model):
     __tablename__ = "schedule"
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),index=True)
-    food_items_id = db.Column(db.Integer, db.ForeignKey('food_items.id'), index=True)
+    user_food_items_id = db.Column(db.Integer, db.ForeignKey('user_food_items.id'), index=True)
     entry_date = db.Column(db.DateTime, index=True, unique=True, default=datetime.utcnow())
     meal_time = db.Column(db.Enum(MealTimes))
 

@@ -4,7 +4,7 @@ from app.models import *
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'NutritionLevel': NutritionLevel, 'UserRoles': UserRoles, 'CoItemType': CoItemType, 'MealTimes': MealTimes, 'User': User, 'CoItem': CoItem, 'FoodItem': FoodItem, 'FoodItemsCoItemSet': FoodItemsCoItemSet, 'ScheduleCoItems': ScheduleCoItems, 'CalendarEntry': CalendarEntry}
+    return {'db': db, 'NutritionLevel': NutritionLevel, 'UserRoles': UserRoles, 'CoItemType': CoItemType, 'MealTimes': MealTimes, 'User': User, 'CoItem': CoItem, 'FoodItem': FoodItem, 'FoodItemsCoItemSet': FoodItemsCoItemSet, 'ScheduleCoItems': ScheduleCoItems, 'CalendarEntry': CalendarEntry, 'UserFoodItems': UserFoodItems}
 
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')

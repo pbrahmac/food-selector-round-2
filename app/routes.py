@@ -3,6 +3,7 @@ from app import app, db
 from app.forms import *
 from wtforms import ValidationError
 from flask_login import current_user, login_user, logout_user, login_required
+from sqlalchemy import or_
 from werkzeug.urls import url_parse
 from app.models import User
 import json
@@ -58,9 +59,13 @@ def user(username):
     users = User.query
     form = UserSearchForm()
     if form.validate():
-        users = users.filter(User.username.like('%' + form.searchBox.data + '%'))
+        users = users.filter(
+            or_(
+                (User.username.like('%' + form.searchBox.data + '%')),
+                (User.firstname.like('%' + form.searchBox.data + '%')),
+                (User.lastname.like('%' + form.searchBox.data + '%'))))
 
-    users = users.order_by(User.username).all()
+    users = users.order_by(User.id).all()
     return render_template('user.html', user=user, users=users, form=form)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
