@@ -2,6 +2,13 @@
 
 I'm expanding this project with a new backend architecture, and changing it from a simple random generator tool to a whole meal-planning app with random-selection capabilities.
 
-Database schema here: 
+## To Clone this Repo
+1. `git clone https://github.com/pbrahmac/food-selector-round-2.git` in your desired local directory
+2. Install virtualenv using `python3 -m pip install --user virtualenv`
+3. Create virtualenv using `python3 -m venv venv` and activate it using `source venv/bin/activate`
+4. Install all dependencies using `pip install -r requirements.txt`
+5. Run the project on localhost:5000 using `flask run` or on a public local IP using `python3 food-selector.py`
 
-![database schema](er_diagram.png)
+## Database schema for this Project
+
+![database schema](database_schema.jpg)
