@@ -4,8 +4,8 @@ from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Le
 from app.models import User
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('', validators=[DataRequired()])
+    password = PasswordField('', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
@@ -55,6 +55,6 @@ class EditProfileForm(FlaskForm):
 class DeleteAccountForm(FlaskForm):
     submit = SubmitField('Delete my account')
 
-class AdminDeleteAccountForm(FlaskForm):
-    username = StringField('Enter this user\'s username to delete the account:', validators=[DataRequired()])
-    submit = SubmitField('Delete')
+class UserSearchForm(FlaskForm):
+    searchBox = StringField('')
+    submit = SubmitField('Search')

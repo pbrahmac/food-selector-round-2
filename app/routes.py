@@ -49,14 +49,19 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/user/<username>')
+@app.route('/user/<username>', methods=['GET', 'POST'])
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     if not current_user.username == user.username:
         abort(403)
-    users = User.query.all()
-    return render_template('user.html', user=user, users=users)
+    users = User.query
+    form = UserSearchForm()
+    if form.validate():
+        users = users.filter(User.username.like('%' + form.searchBox.data + '%'))
+
+    users = users.order_by(User.username).all()
+    return render_template('user.html', user=user, users=users, form=form)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required

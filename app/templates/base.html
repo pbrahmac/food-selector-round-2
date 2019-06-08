@@ -39,6 +39,11 @@
                 {{ render_nav_item('login', 'Login') }}
                 {% else %}
                 {{ render_nav_item('user', 'My Profile', username=current_user.username) }}
+
+                {% if current_user.user_role.value == 'admin' %}
+                {{ render_nav_item('admin.index', 'Admin Dashboard') }}
+                {% endif %}
+
                 {{ render_nav_item('logout', 'Logout') }}
                 {% endif %}
             </ul>

@@ -31,6 +31,10 @@
     <!-- Admin settings -->
     {% if (user == current_user) and (user.user_role.value == 'admin') %}
         <h3>All Users</h3>
+        <form method="POST" class="form">
+            {{ form.csrf_token() }}
+            {{ wtf_field(form.searchBox, placeholder='Search by username...', class="form-control mb-2 mr-sm-2") }}
+        </form>
         <div class="table-responsive-md">
             <table class="table table-hover">
                 <caption>List of users</caption>
@@ -55,37 +59,7 @@
                         <td>{{ u.email }}</td>
                         <td>{{ u.user_role.value }}</td>
 
-                        <!-- Delete user account THIS DOESN'T WORK -->
-                        <!-- <td>
-                            <button type="button" class=" btn btn-danger" data-toggle="modal" data-target="#deleteModal">
-                                <span style="color: white;">
-                                    <i class="far fa-trash-alt"></i>
-                                </span>
-                            </button>
-                            
-                            <div class="modal fade" id="deleteModal" tabindex="-1" role="alertdialog" aria-labelledby="deleteAccountModal"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalTitle">Are You Sure?</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            This will delete this user's account <strong>permanently</strong>.
-                                            <form method="POST">
-                                                
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td> -->
+                        
                     </tr>
                     {% endfor %}
                 </tbody>
