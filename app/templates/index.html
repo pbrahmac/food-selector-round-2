@@ -1,5 +1,31 @@
 {% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form as wtf %}
+{% from 'bootstrap/form.html' import render_field as wtf_field %}
 
 {% block app_content %}
-    <h1>Hi, {{ current_user.firstname }}</h1>
+    <h1>{{ current_user.firstname }}'s Homepage</h1>
+    <br>
+    {{ wtf(form, button_map={'submit': 'success'}) }}
+    <br>
+    <p>{{ render_item }}</p>
+
+    <script>
+        let nutrition_select = document.getElementById('nutrition');
+        let food_select = document.getElementById('foods');
+
+        nutrition_select.onchange = function() {
+            nutrition = nutrition_select.value;
+
+            fetch('/foods/' + nutrition).then(function(response) {
+                response.json().then(function(data) {
+                    let optionHTML = ''
+                    for (let food of data.foods) {
+                        optionHTML += '<option value="' + food.id + '">' + food.item + '</option>';
+                    }
+                    food_select.innerHTML = optionHTML;
+                })
+            });
+        }
+    </script>
+
 {% endblock %}

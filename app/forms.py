@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SelectField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SelectField, SelectMultipleField, SubmitField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length, Regexp
 from app.models import User
 
@@ -58,3 +58,8 @@ class DeleteAccountForm(FlaskForm):
 class UserSearchForm(FlaskForm):
     searchBox = StringField('')
     submit = SubmitField('Search')
+
+class TestFoodItemDynamicForm(FlaskForm):
+    nutrition = SelectField(u'Nutrition Level', choices=[('high', 'High'), ('medium', 'Medium'), ('low', 'Low')])
+    foods = SelectField(u'Foods', choices=[])
+    submit = SubmitField('Find')

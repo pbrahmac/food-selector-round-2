@@ -60,7 +60,7 @@ class User(UserMixin, db.Model):
 
 class UserFoodItems(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True)
     food_items_id = db.Column(db.Integer, db.ForeignKey('food_items.id'), index=True)
 
     created = db.Column(db.DateTime, index=True, default=datetime.utcnow())

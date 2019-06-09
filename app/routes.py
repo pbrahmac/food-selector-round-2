@@ -1,18 +1,39 @@
-from flask import render_template, flash, redirect, url_for, request, abort
+from flask import render_template, flash, redirect, url_for, request, abort, jsonify
 from app import app, db
 from app.forms import *
 from wtforms import ValidationError
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
 from werkzeug.urls import url_parse
-from app.models import User
+from app.models import *
 import json
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    return render_template('index.html', title="Home")
+    form = TestFoodItemDynamicForm()
+    form.foods.choices = [(foods.id, foods.item) for foods in FoodItem.query.filter_by(nutrition=NutritionLevel.high).all()]
+    render_item = ''
+    if request.method == 'POST':
+        food = FoodItem.query.filter_by(id=form.foods.data).first()
+        render_item = 'Nutrition Level: {}, Food Chosen: {}'.format(form.nutrition.data, food.item)
+        return render_template('index.html', title="Home", form=form, render_item=render_item)
+    
+    return render_template('index.html', title="Home", form=form, render_item=render_item)
+
+@app.route('/foods/<nutrition>')
+def foods(nutrition):
+    foods = FoodItem.query.filter_by(nutrition=nutrition).all()
+    foodArray = []
+
+    for food in foods:
+        foodObj = {}
+        foodObj['id'] = food.id
+        foodObj['item'] = food.item
+        foodArray.append(foodObj)
+
+    return jsonify({'foods' : foodArray})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -96,3 +117,8 @@ def edit_profile():
         return redirect(url_for('login'))
 
     return render_template('edit_profile.html', title='Edit Profile', form=form, deleteForm=deleteForm)
+
+@app.route('/my_foods')
+@login_required
+def my_foods():
+    return render_template('my_foods.html', title='My Foods')
