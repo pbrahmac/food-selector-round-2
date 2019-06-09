@@ -56,7 +56,7 @@ class User(UserMixin, db.Model):
 
     #print function
     def __repr__(self):
-        return "<User {} {} | username: {} | email: {} | role: {}>".format(self.firstname, self.lastname, self.username, self.email, self.user_role.value)
+        return "{} {}, {}".format(self.firstname, self.lastname, self.username)
 
 class UserFoodItems(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -84,7 +84,7 @@ class CoItem(db.Model):
 
     #print function
     def __repr__(self):
-        return "<Co-Item: {} | type: {}>".format(self.name, self.item_type.value)
+        return "{}, {}".format(self.name, self.item_type.value)
 
 class FoodItem(db.Model):
     __tablename__ = 'food_items'
@@ -106,7 +106,7 @@ class FoodItem(db.Model):
 
     #print function
     def __repr__(self):
-        return "<Food-Item: {} | breakfast: {} | lunch: {} | dinner: {} | nutrition: {}>".format(self.item, self.breakfast, self.lunch, self.dinner, self.nutrition.value)
+        return "{}".format(self.item)
 
 class FoodItemsCoItemSet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
