@@ -59,7 +59,6 @@ class UserSearchForm(FlaskForm):
     searchBox = StringField('')
     submit = SubmitField('Search')
 
-class TestFoodItemDynamicForm(FlaskForm):
-    nutrition = SelectField(u'Nutrition Level', choices=[('high', 'High'), ('medium', 'Medium'), ('low', 'Low')])
-    foods = SelectField(u'Foods', choices=[])
-    submit = SubmitField('Find')
+class FoodItemSearchForm(FlaskForm):
+    foodSearchBox = StringField('')
+    submit = SubmitField('Search')

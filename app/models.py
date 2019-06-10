@@ -67,7 +67,7 @@ class UserFoodItems(db.Model):
     last_modified = db.Column(db.DateTime, index=True, default=datetime.utcnow())
 
     #link between UserFoodItems and Schedule tables
-    user_food_item_schedule = db.relationship('CalendarEntry', backref='user_food_item', lazy='dynamic')
+    user_food_item_schedule = db.relationship('Schedule', backref='user_food_item', lazy='dynamic')
 
 class CoItem(db.Model):
     __tablename__ = 'co_items'
@@ -129,7 +129,7 @@ class ScheduleCoItems(db.Model):
     def __repr__(self):
         return "<Helper table for schedule and food_items_co_item_set. schedule_id: {}, food_items_co_item_set_id: {}>".format(self.schedule_id, self.food_items_co_item_set_id)
 
-class CalendarEntry(db.Model):
+class Schedule(db.Model):
     __tablename__ = "schedule"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -142,4 +142,4 @@ class CalendarEntry(db.Model):
 
     #print function
     def __repr__(self):
-        return "<\nCalendar Entry: \nDate: {}\nMealtime: {}\nUser ID: {}\nFood Item ID: {}\n>".format(self.entry_date, self.meal_time.value, self.user_id, self.food_items_id)
+        return "<\Schedule Entry: \nDate: {}\nMealtime: {}\nUser ID: {}\nFood Item ID: {}\n>".format(self.entry_date, self.meal_time.value, self.user_id, self.food_items_id)

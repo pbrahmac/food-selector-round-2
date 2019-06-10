@@ -12,28 +12,7 @@ import json
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    form = TestFoodItemDynamicForm()
-    form.foods.choices = [(foods.id, foods.item) for foods in FoodItem.query.filter_by(nutrition=NutritionLevel.high).all()]
-    render_item = ''
-    if request.method == 'POST':
-        food = FoodItem.query.filter_by(id=form.foods.data).first()
-        render_item = 'Nutrition Level: {}, Food Chosen: {}'.format(form.nutrition.data, food.item)
-        return render_template('index.html', title="Home", form=form, render_item=render_item)
-    
-    return render_template('index.html', title="Home", form=form, render_item=render_item)
-
-@app.route('/foods/<nutrition>')
-def foods(nutrition):
-    foods = FoodItem.query.filter_by(nutrition=nutrition).all()
-    foodArray = []
-
-    for food in foods:
-        foodObj = {}
-        foodObj['id'] = food.id
-        foodObj['item'] = food.item
-        foodArray.append(foodObj)
-
-    return jsonify({'foods' : foodArray})
+    return render_template('index.html', title="Food Selector")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -78,16 +57,31 @@ def user(username):
     if not current_user.username == user.username:
         abort(403)
     users = User.query
-    form = UserSearchForm()
-    if form.validate():
+    userForm = UserSearchForm()
+    if userForm.validate_on_submit():
         users = users.filter(
             or_(
-                (User.username.like('%' + form.searchBox.data + '%')),
-                (User.firstname.like('%' + form.searchBox.data + '%')),
-                (User.lastname.like('%' + form.searchBox.data + '%'))))
-
+                (User.username.like('%' + userForm.searchBox.data + '%')),
+                (User.firstname.like('%' + userForm.searchBox.data + '%')),
+                (User.lastname.like('%' + userForm.searchBox.data + '%'))
+            )
+        )
+    
     users = users.order_by(User.id).all()
-    return render_template('user.html', user=user, users=users, form=form)
+
+    food_items = FoodItem.query
+    foodItemForm = FoodItemSearchForm()
+    if foodItemForm.validate_on_submit():
+        food_items.filter(
+            or_(
+                (FoodItem.item.like('%' + foodItemForm.foodSearchBox.data + '%')),
+                (FoodItem.nutrition.like('%' + foodItemForm.foodSearchBox.data + '%'))
+            )
+        )
+    
+    food_items = food_items.order_by(FoodItem.id).all()
+
+    return render_template('user.html', title='My Profile', user=user, users=users, food_items=food_items, userForm=userForm, foodItemForm=foodItemForm)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -122,3 +116,9 @@ def edit_profile():
 @login_required
 def my_foods():
     return render_template('my_foods.html', title='My Foods')
+
+@app.route('/my_cal')
+@login_required
+def my_cal():
+    users = User.query.all()
+    return render_template('my_cal.html', title='My Calendar', users=users)

@@ -14,8 +14,9 @@
     {% endblock %}
 
     <script src="https://kit.fontawesome.com/191bf81cac.js"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
-    <title>{% if title %}{{ title }} - Extended Food Selector{% else %}Welcome to Extended Food Selector!{% endif %}</title>
+    <title>{% if title %}{{ title }}{% else %}Welcome to Extended Food Selector!{% endif %}</title>
     {% endblock %}
   </head>
   <body class="text-dark bg-light">
@@ -34,6 +35,7 @@
                 <!-- Left side navbar items here -->
                 {% if not current_user.is_anonymous %}
                 
+                {{ render_nav_item('my_cal', 'My Calendar') }}
                 {{ render_nav_item('my_foods', 'My Foods') }}
 
                 {% endif %}
@@ -43,9 +45,11 @@
                 {% if current_user.is_anonymous %}
                 {{ render_nav_item('login', 'Login') }}
                 {% else %}
+                {% if current_user.user_role.value == 'user' %}
                 {{ render_nav_item('user', 'My Profile', username=current_user.username) }}
 
-                {% if current_user.user_role.value == 'admin' %}
+                {% elif current_user.user_role.value == 'admin' %}
+                {{ render_nav_item('user', 'My Admin Page', username=current_user.username) }}
                 {{ render_nav_item('admin.index', 'Admin Dashboard') }}
                 {% endif %}
 

@@ -31,14 +31,16 @@ class MyUserView(MyModelView):
     column_searchable_list = ['firstname', 'lastname', 'username']
 
 class MyFoodItemView(MyModelView):
-    column_searchable_list = ['item', 'breakfast', 'lunch', 'dinner', 'nutrition']
+    column_searchable_list = ['item', 'nutrition']
+    column_filters = ['breakfast', 'lunch', 'dinner']
     # column_editable_list = ['item', 'breakfast', 'lunch', 'dinner', 'nutrition']
 
 class MyUserFoodItemsView(MyModelView):
     pass
 
 class MyCoItemView(MyModelView):
-    column_searchable_list = ['name', 'item_type']
+    column_searchable_list = ['name']
+    column_filters = ['item_type']
 
 class MyFoodItemsCoItemSetView(MyModelView):
     pass
@@ -46,7 +48,7 @@ class MyFoodItemsCoItemSetView(MyModelView):
 class MyScheduleCoItemsView(MyModelView):
     pass
 
-class MyCalendarEntryView(MyModelView):
+class MyScheduleView(MyModelView):
     pass
 
 admin.add_view(MyUserView(User, db.session))
@@ -55,4 +57,4 @@ admin.add_view(MyFoodItemView(FoodItem, db.session))
 admin.add_view(MyCoItemView(CoItem, db.session))
 admin.add_view(MyFoodItemsCoItemSetView(FoodItemsCoItemSet, db.session))
 admin.add_view(MyScheduleCoItemsView(ScheduleCoItems, db.session))
-admin.add_view(MyCalendarEntryView(CalendarEntry, db.session))
+admin.add_view(MyScheduleView(Schedule, db.session))
