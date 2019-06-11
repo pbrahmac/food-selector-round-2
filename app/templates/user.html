@@ -28,19 +28,18 @@
         {% endif %}
 
         <br><br>
-    {% endif %}
     
     <!-- Admin settings -->
-    {% if (user == current_user) and (user.user_role.value == 'admin') %}
+    {% elif (user == current_user) and (user.user_role.value == 'admin') %}
         <h1>Parjanya's Admin Page</h1>
         <hr>
-        <h3>Users</h3>
+        <h3>Users <img src="https://img.icons8.com/color/32/000000/conference-call.png"></h3>
         <form method="POST" class="form">
             {{ userForm.csrf_token() }}
             {{ wtf_field(userForm.searchBox, placeholder='Search by first name, last name, or username...', class="form-control mb-2 mr-sm-2") }}
         </form>
         <div class="table-responsive-md">
-            <table class="table table-hover">
+            <table class="table table-light table-hover">
                 <caption>List of users</caption>
                 <thead class="thead-light">
                     <tr>
@@ -68,13 +67,13 @@
             </table>
         </div>
         <br><hr><br>
-        <h3>Food Items</h3>
+        <h3>Food Items <img src="https://img.icons8.com/color/32/000000/orange.png"></h3>
         <form method="POST" class="form">
             {{ foodItemForm.csrf_token() }}
             {{ wtf_field(foodItemForm.foodSearchBox, placeholder='Search by item or nutrition...', class="form-control mb-2 mr-sm-2") }}
         </form>
         <div class="table-responsive-md">
-            <table class="table table-hover">
+            <table class="table table-light table-hover">
                 <caption>List of food items</caption>
                 <thead class="thead-light">
                     <tr>
@@ -92,24 +91,24 @@
                         <td>{{ f.id }}</td>
                         <td>{{ f.item }}</td>
                         <td>
-                            {% if f.breakfast == True %}
-                            <i class="far fa-check-circle"></i>
+                            {% if f.breakfast %}
+                            <img src="https://img.icons8.com/color/24/000000/checked.png">
                             {% else %}
-                            <i class="far fa-times-circle"></i>
+                            <img src="https://img.icons8.com/color/24/000000/cancel.png">
                             {% endif %}
                         </td>
                         <td>
-                            {% if f.lunch == True %}
-                            <i class="far fa-check-circle"></i>
+                            {% if f.lunch %}
+                            <img src="https://img.icons8.com/color/24/000000/checked.png">
                             {% else %}
-                            <i class="far fa-times-circle"></i>
+                            <img src="https://img.icons8.com/color/24/000000/cancel.png">
                             {% endif %}
                         </td>
                         <td>
-                            {% if f.dinner == True %}
-                            <i class="far fa-check-circle"></i>
+                            {% if f.dinner %}
+                            <img src="https://img.icons8.com/color/24/000000/checked.png">
                             {% else %}
-                            <i class="far fa-times-circle"></i>
+                            <img src="https://img.icons8.com/color/24/000000/cancel.png">
                             {% endif %}
                         </td>
                         <td>{{ f.nutrition.value }}</td>

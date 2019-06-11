@@ -44,7 +44,6 @@ class MyCoItemView(MyModelView):
 
 class MyFoodItemsCoItemSetView(MyModelView):
     pass
-
 class MyScheduleCoItemsView(MyModelView):
     pass
 

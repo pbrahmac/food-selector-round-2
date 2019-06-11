@@ -11,9 +11,11 @@
     {% block styles %}
     <!-- Bootstrap CSS -->
     {{ bootstrap.load_css() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <!-- Google Material Icons
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
     {% endblock %}
 
-    <script src="https://kit.fontawesome.com/191bf81cac.js"></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
     <title>{% if title %}{{ title }}{% else %}Welcome to Extended Food Selector!{% endif %}</title>
@@ -95,6 +97,10 @@
     {% block scripts %}
     <!-- Optional JavaScript -->
     {{ bootstrap.load_js() }}
+    <!-- Font Awesome
+    <script src="https://kit.fontawesome.com/191bf81cac.js"></script>
+    Ionicons
+    <script src="https://unpkg.com/ionicons@4.5.5/dist/ionicons.js"></script> -->
     {% endblock %}
   </body>
 </html>

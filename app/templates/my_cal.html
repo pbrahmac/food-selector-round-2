@@ -3,13 +3,14 @@
 {% from 'bootstrap/form.html' import render_field as wtf_field %}
 
 {% block app_content %}
-    <h1>{{ current_user.firstname }}'s Calendar</h1>
-    <hr>
+    <h1>{{ current_user.firstname }}'s Calendar <img src="https://img.icons8.com/color/48/000000/calendar.png"></h1>
+    <hr><br>
 
+    <form>
     <div class="table-responsive-md">
-        <table class="table table-hover table-bordered">
-            <caption>Food Schedule</caption>
-            <thead class="thead">
+        <table class="table table-light table-hover">
+            <!-- <caption>Food Schedule</caption> -->
+            <thead class="thead thead-light">
                 <tr>
                     <th scope="col">Date</th>
                     <th scope="col">Breakfast</th>
@@ -18,18 +19,24 @@
                 </tr>
             </thead>
             <tbody>
-                {% for u in users %}
+                {% for n in range(current_date.day, last_day+1) %}
                 <tr>
-                    <th scope="row">June {{ u.id }}, 2019</th>
-                    <td>Form here</td>
-                    <td>Form here</td>
-                    <td>Form here</td>
+                    <th scope="row">{{ current_month }} {{ n }}, {{ current_date.year }}</th>
+                    <td>
+                        <input class="form-control" placeholder="breakfast">
+                    </td>
+                    <td>
+                        <input class="form-control" placeholder="lunch">
+                    </td>
+                    <td>
+                        <input class="form-control" placeholder="dinner">
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-
-
-
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+    <br>
 {% endblock %}

@@ -3,6 +3,12 @@
 {% from 'bootstrap/form.html' import render_field as wtf_field %}
 
 {% block app_content %}
-    <h1>{{ current_user.firstname }}'s Homepage</h1>
-    <br>
+<br>    
+<div class="jumbotron">
+        <h1 class="display-4">Hello, {{ current_user.firstname }}!</h1>
+        <hr class="my-5">
+        <a class="btn btn-outline-dark" href="{{ url_for('my_cal') }}" role="button">Go to my calendar</a>
+        <a class="btn btn-outline-dark" href="{{ url_for('my_foods') }}" role="button">Go to my foods</a>
+        <a class="btn btn-outline-dark" href="{{ url_for('user', username=current_user.username) }}" role="button">Go to my profile</a>
+    </div>
 {% endblock %}

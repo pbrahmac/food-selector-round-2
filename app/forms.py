@@ -61,4 +61,3 @@ class UserSearchForm(FlaskForm):
 
 class FoodItemSearchForm(FlaskForm):
     foodSearchBox = StringField('')
-    submit = SubmitField('Search')

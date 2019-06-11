@@ -6,7 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
 from werkzeug.urls import url_parse
 from app.models import *
-import json
+import json, datetime, calendar
 
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -66,20 +66,18 @@ def user(username):
                 (User.lastname.like('%' + userForm.searchBox.data + '%'))
             )
         )
-    
-    users = users.order_by(User.id).all()
+        users = users.order_by(User.id).all()
 
     food_items = FoodItem.query
     foodItemForm = FoodItemSearchForm()
-    if foodItemForm.validate_on_submit():
+    if foodItemForm.validate():
         food_items.filter(
             or_(
                 (FoodItem.item.like('%' + foodItemForm.foodSearchBox.data + '%')),
                 (FoodItem.nutrition.like('%' + foodItemForm.foodSearchBox.data + '%'))
             )
         )
-    
-    food_items = food_items.order_by(FoodItem.id).all()
+        food_items = food_items.order_by(FoodItem.id).all()
 
     return render_template('user.html', title='My Profile', user=user, users=users, food_items=food_items, userForm=userForm, foodItemForm=foodItemForm)
 
@@ -121,4 +119,7 @@ def my_foods():
 @login_required
 def my_cal():
     users = User.query.all()
-    return render_template('my_cal.html', title='My Calendar', users=users)
+    current_date = datetime.datetime.today()
+    current_month = current_date.strftime('%B')
+    last_day = calendar.monthrange(current_date.year, current_date.month)[1]
+    return render_template('my_cal.html', title='My Calendar', users=users, current_date=current_date, last_day=last_day, current_month=current_month)
