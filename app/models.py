@@ -69,6 +69,9 @@ class UserFoodItems(db.Model):
     #link between UserFoodItems and Schedule tables
     user_food_item_schedule = db.relationship('Schedule', backref='user_food_item', lazy='dynamic')
 
+    def __repr__(self):
+        return "{}, {}".format(User.query.filter_by(id=self.user_id).first().firstname, FoodItem.query.filter_by(id=self.food_items_id).first().item)
+
 class CoItem(db.Model):
     __tablename__ = 'co_items'
 
@@ -142,4 +145,4 @@ class Schedule(db.Model):
 
     #print function
     def __repr__(self):
-        return "<\Schedule Entry: \nDate: {}\nMealtime: {}\nUser ID: {}\nFood Item ID: {}\n>".format(self.entry_date, self.meal_time.value, self.user_id, self.food_items_id)
+        return "<\Schedule Entry: \nDate: {}\nMealtime: {}\nUser Food Item ID: {}\n>".format(self.entry_date, self.meal_time.value, self.user_food_items_id)

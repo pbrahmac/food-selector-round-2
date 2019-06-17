@@ -21,15 +21,33 @@
             <tbody>
                 {% for n in range(current_date.day, last_day+1) %}
                 <tr>
-                    <th scope="row">{{ current_month }} {{ n }}, {{ current_date.year }}</th>
+                    <th scope="row">{{ current_month }} {{ n }}</th>
                     <td>
-                        <input class="form-control" placeholder="breakfast">
+                        <select class="form-control">
+                            {%- for f in range(food_items|length) -%}
+                            {%- if food_items[f].breakfast %}
+                            <option>{{ food_items[f].item }}</option>
+                            {%- endif %}
+                            {%- endfor %}
+                        </select>
                     </td>
                     <td>
-                        <input class="form-control" placeholder="lunch">
+                        <select class="form-control">
+                            {%- for f in range(food_items|length) -%}
+                            {%- if food_items[f].lunch %}
+                            <option>{{ food_items[f].item }}</option>
+                            {%- endif %}
+                            {%- endfor %}
+                        </select>
                     </td>
                     <td>
-                        <input class="form-control" placeholder="dinner">
+                        <select class="form-control">
+                            {%- for f in range(food_items|length) -%}
+                            {%- if food_items[f].dinner %}
+                            <option>{{ food_items[f].item }}</option>
+                            {%- endif %}
+                            {%- endfor %}
+                        </select>
                     </td>
                 </tr>
                 {% endfor %}
@@ -39,4 +57,12 @@
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
     <br>
+
+
+
+
+
+    <script>
+        console.log("hehe")
+    </script>
 {% endblock %}

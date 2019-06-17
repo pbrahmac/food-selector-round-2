@@ -119,7 +119,9 @@ def my_foods():
 @login_required
 def my_cal():
     users = User.query.all()
+    food_items = FoodItem.query.all()
+    # user_schedule = Schedule.query.filter_by(user_food_items_id=())
     current_date = datetime.datetime.today()
     current_month = current_date.strftime('%B')
     last_day = calendar.monthrange(current_date.year, current_date.month)[1]
-    return render_template('my_cal.html', title='My Calendar', users=users, current_date=current_date, last_day=last_day, current_month=current_month)
+    return render_template('my_cal.html', title='My Calendar', users=users, food_items=food_items, current_date=current_date, last_day=last_day, current_month=current_month)
