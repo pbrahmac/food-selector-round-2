@@ -1,5 +1,7 @@
 # Food Selector Project, Round 2
 
+See project in its current state here: https://food-selector-2.herokuapp.com/
+
 I'm expanding this project with a new backend architecture, and changing it from a simple random generator tool to a whole meal-planning app with random-selection capabilities.
 
 ## To Clone this Repo
