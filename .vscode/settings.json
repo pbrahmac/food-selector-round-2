@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "venv\\Scripts\\python.exe"
+    "python.pythonPath": "/Users/parjanya/Documents/madHacks/Food Selector/food-selector-round-2/venv/bin/python3.7",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

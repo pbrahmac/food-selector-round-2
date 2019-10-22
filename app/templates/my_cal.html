@@ -58,11 +58,35 @@
     </form>
     <br>
 
+    <!-- Testing calendar view type table here:  -->
+    <div class="table-responsive-md">
+        <table class="table table-light table-hover">
+            <thead class="thead thead-light">
+                <tr>
+                    <th scope="col">Sunday</th>
+                    <th scope="col">Monday</th>
+                    <th scope="col">Tuesday</th>
+                    <th scope="col">Wednesday</th>
+                    <th scope="col">Thursday</th>
+                    <th scope="col">Friday</th>
+                    <th scope="col">Saturday</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%- for n in range(0,5) %}
+                <tr>
+                    {%- for d in range(1,8) %}
+                    {%- if ((n*7)+d) <= last_day %}
+                    <td>{{ (n*7)+d }}</td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
+    <br>
 
-
-
-    <script>
-        console.log("hehe")
-    </script>
+    
 {% endblock %}

@@ -5,6 +5,7 @@ from wtforms import ValidationError
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
 from werkzeug.urls import url_parse
+from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import *
 import json, datetime, calendar
 
@@ -21,8 +22,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if not user.check_password(form.password.data):
-            flash("Incorrect password.", category="error")
+        if not user.check_password(form.password.data.strip()):
+            flash("Incorrect password. Username: {}, Password: {}\nForm Password: ---{}---, Form Password Hash: {}".format(user.username, user.password_hash, form.password.data, generate_password_hash(form.password.data)), category="error")
             return redirect(url_for('login'))
         login_user(user)
         next_page = request.args.get('next')
@@ -123,5 +124,8 @@ def my_cal():
     # user_schedule = Schedule.query.filter_by(user_food_items_id=())
     current_date = datetime.datetime.today()
     current_month = current_date.strftime('%B')
+    current_year = current_date.strftime('%Y')
+    test_calendar = calendar.TextCalendar(calendar.SUNDAY).formatmonth(int(current_year), int(current_date.strftime('%m')))
+
     last_day = calendar.monthrange(current_date.year, current_date.month)[1]
-    return render_template('my_cal.html', title='My Calendar', users=users, food_items=food_items, current_date=current_date, last_day=last_day, current_month=current_month)
+    return render_template('my_cal.html', title='My Calendar', users=users, food_items=food_items, current_date=current_date, last_day=last_day, current_month=current_month, current_year=current_year, test_calendar=test_calendar)

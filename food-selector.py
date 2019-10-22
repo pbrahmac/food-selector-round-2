@@ -9,4 +9,4 @@ def make_shell_context():
 if __name__ == '__main__':
     host = os.environ.get('HOST', '0.0.0.0')
     port = int(os.environ.get('PORT', 33507))
-    app.run(debug=False, port=port, host=host)
+    app.run(debug=True, port=port, host=host)
